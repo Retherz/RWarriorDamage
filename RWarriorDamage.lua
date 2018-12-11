@@ -152,6 +152,23 @@ weaponDamageMH, weaponSkillMH, flurryRank, weaponDamageOH, weaponSkillOH, attack
 	SendMessage("-------------------");
 	
 	
+	-- recalcualte with 20 AP
+	SendMessage("Adding 20 AP would result in: ");
+	attackPower = attackPower + 20;
+	overpowerDamage, flurryUptime, whirlwindDamage, bloodthirstDamage, dps, ragePerSecond, hsDamage = CalculateDPS(critChance, impaleRank, overpowerRank, dodgeChanceMH, hitBonus, missChance, hitBonusOH, dodgeChanceOH, offHandCrit, speedMH, speedOH,
+weaponDamageMH, weaponSkillMH, flurryRank, weaponDamageOH, weaponSkillOH, attackPower, unbridledWrath);
+	SendMessage("OP: +" .. Round(overpowerDamage - baseoverpowerDamage) .. " WW: +" .. Round(whirlwindDamage - basewhirlwindDamage) .. " BT: +" .. Round(bloodthirstDamage - basebloodthirstDamage));
+	SendMessage("Flurry uptime: +" .. Round((flurryUptime / baseflurryUptime - 1)* 100) .. "% Rage per Second: +" .. Round((ragePerSecond - baseragePerSecond)));
+	hsPS = ((ragePerSecond - 7.5) / heroicStrikeCost);
+	dpsFromHS = 0;
+	if(ragePerSecond > 7.5) then
+		hspPerS = Round((1 / hsPS) * 1.5);
+		SendMessage("Heroic Strikes 1 per " .. hspPerS .. " seconds.");
+		dpsFromHS = (hsDamage - weaponDamageMH) / hspPerS;
+	end
+	SendMessage("DPS: " .. Round((dps + dpsFromHS) - (basedps + basedpsFromHS))  .. " added dps.");
+	attackPower = attackPower - 20;
+	SendMessage("-------------------");
 	
 	
 end
